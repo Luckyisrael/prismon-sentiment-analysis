@@ -4,11 +4,11 @@ import { LogOut, Pause, Play } from "lucide-react";
 import { SolanaHeader } from "@/components/solana-header";
 import { motion } from "@/components/motion";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { PriceUpdate } from "../../../../PrismonSDK/src";
 import { client } from "@/lib/utils";
 import PythCryptoChart from "@/components/PythDataChart";
 import { SentimentAnalyzer } from "@/components/sentiment-analyzer";
 import { useAuth } from "@/context/auth-context";
+import { PriceUpdate } from "@prismon/sdk";
 
 const PRICE_FEED_IDS = [
   "c2289a6a43d2ce91c6f55caec370f4acc38a2ed477f58813334c6d03749ff2a4",

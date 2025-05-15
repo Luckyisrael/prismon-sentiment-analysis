@@ -15,13 +15,12 @@ import { Wallet, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { client } from '@/lib/utils';
-import { useAuth } from '@/context/auth-context';
-import { LoginModal } from './login-modal'; // Import your LoginModal component
+import { LoginModal } from './login-modal';
 
 interface SignupModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onShowLogin?: () => void; // Add this prop to handle showing login modal
+  onShowLogin?: () => void; 
 }
 
 export function SignupModal({ open, onOpenChange, onShowLogin }: SignupModalProps) {
