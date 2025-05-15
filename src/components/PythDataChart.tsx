@@ -63,7 +63,7 @@ const interpolatePrice = (startPrice: number, endPrice: number, steps: number, c
   return startPrice + (endPrice - startPrice) * (currentStep / steps);
 };
 
-const PythCryptoChart = ({ priceUpdates, timeWindow = 5 }: PythPriceChartProps) => {
+const PythCryptoChart = ({ priceUpdates }: PythPriceChartProps) => {
   const [chartData, setChartData] = useState<any[]>([]);
   const [candleData, setCandleData] = useState<any[]>([]);
   const [latestPrices, setLatestPrices] = useState<Record<string, { price: number, change: number }>>(
@@ -96,6 +96,7 @@ const PythCryptoChart = ({ priceUpdates, timeWindow = 5 }: PythPriceChartProps) 
       if (newUpdates.length === 0) return;
 
       newUpdates.forEach(update => {
+        //@ts-ignore
         const assetName = PRICE_FEED_MAP[update.id] || update.id.substring(0, 8);
         const priceValue = parseFloat(update.price.price) * Math.pow(10, update.price.expo);
         const timePoint = update.price.publish_time;

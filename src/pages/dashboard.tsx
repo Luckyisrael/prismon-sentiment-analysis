@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { LogOut, Pause, Play, Send } from "lucide-react";
+import { LogOut, Pause, Play } from "lucide-react";
 import { SolanaHeader } from "@/components/solana-header";
 import { motion } from "@/components/motion";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -8,7 +8,6 @@ import { PriceUpdate } from "../../../../PrismonSDK/src";
 import { client } from "@/lib/utils";
 import PythCryptoChart from "@/components/PythDataChart";
 import { SentimentAnalyzer } from "@/components/sentiment-analyzer";
-import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/auth-context";
 
 const PRICE_FEED_IDS = [
@@ -29,32 +28,8 @@ export function Dashboard() {
   );
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [latestPrices, setLatestPrices] = useState<any[]>([]);
-  const [aiResponse, setAiResponse] = useState<string>("");
-  const [userQuery, setUserQuery] = useState<string>("");
-  const [isAiLoading, setIsAiLoading] = useState<boolean>(false);
   const { userId, isAuthenticated } = useAuth();
 
-  // Clean up the price data for AI analysis
-  const cleanPriceData = useCallback((prices: any[]) => {
-    return prices.map((price) => ({
-      id: price.id,
-      symbol:
-        price.id === PRICE_FEED_IDS[0]
-          ? "SOL/USD"
-          : price.id === PRICE_FEED_IDS[1]
-          ? "BTC/USD"
-          : "ETH/USD",
-      currentPrice:
-        parseFloat(price.price.price) * Math.pow(10, price.price.expo),
-      confidence: parseFloat(price.price.conf) * Math.pow(10, price.price.expo),
-      publishTime: new Date(price.price.publish_time * 1000).toLocaleString(),
-      emaPrice:
-        parseFloat(price.ema_price.price) * Math.pow(10, price.ema_price.expo),
-      emaConfidence:
-        parseFloat(price.ema_price.conf) * Math.pow(10, price.ema_price.expo),
-    }));
-  }, []);
 
   // Start/stop price streaming
   const handleStreaming = useCallback(async () => {
@@ -98,7 +73,6 @@ export function Dashboard() {
   // Initialize with latest prices and start streaming
   useEffect(() => {
     const initialize = async () => {
-      await handleGetLatestPrice();
       await handleStreaming();
     };
     initialize();
@@ -112,31 +86,6 @@ export function Dashboard() {
     };
   }, []);
 
-  // Fetch latest prices
-  const handleGetLatestPrice = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const response = await client.pyth.getLatestPrice({
-        priceFeedIds: PRICE_FEED_IDS,
-        ignoreInvalidPriceIds: true,
-      });
-
-      if (response.success && response.data) {
-        const cleanedPrices = cleanPriceData(response.data.prices);
-        setLatestPrices(cleanedPrices);
-        setError(null);
-        return cleanedPrices;
-      } else {
-        setError(response.error || "Failed to fetch latest prices");
-        return null;
-      }
-    } catch (err: any) {
-      setError(err.message);
-      return null;
-    } finally {
-      setIsLoading(false);
-    }
-  }, [cleanPriceData]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">

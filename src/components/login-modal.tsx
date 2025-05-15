@@ -24,7 +24,6 @@ interface LoginModalProps {
 }
 
 export function LoginModal({ open, onOpenChange }: LoginModalProps) {
-  const navigate = useNavigate();
   const { publicKey, signMessage, connected } = useWallet();
   const { toast } = useToast();
   const [email, setEmail] = useState('');
@@ -62,11 +61,18 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
     try {
       const response = await client.users.signUpWallet(wallet);
       if (response.success) {
-        login(response.data.userId); 
+
+       
+        login(response.data?.userId ?? '');
         toast({
           title: "Login success",
-          description: `Login successful: ${response.data.userId}`,
+          description: `Login successful: ${response.data?.userId ?? 'Unknown'}`,
         });
+        //@ts-ignore
+        if (response.data?.token ?? '') {
+          //@ts-ignore
+          client.setJwtToken(response.data?.token?? '');
+        }
         onOpenChange(false);
       } else {
         toast({
@@ -168,7 +174,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
           ) : (
             <Wallet className="mr-2 h-4 w-4" />
           )}
-          Continue with Wallet
+          Login with Wallet
         </Button>
       </DialogContent>
     </Dialog>

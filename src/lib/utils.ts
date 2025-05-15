@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { createPrismonClient } from "../../../../PrismonSDK/src/index";
+import { createPrismonClient } from '@prismon/sdk';
 
 
 

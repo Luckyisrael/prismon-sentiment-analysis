@@ -1,7 +1,6 @@
 import { useState } from 'react';
-//import { useWallet } from '@/context/wallet-context';
 import { Button } from '@/components/ui/button';
-import { CircleDollarSign, Wallet } from 'lucide-react';
+import { CircleDollarSign } from 'lucide-react';
 import { motion } from '@/components/motion';
 import { LoginModal } from '@/components/login-modal';
 import { SignupModal } from '@/components/signup-modal';

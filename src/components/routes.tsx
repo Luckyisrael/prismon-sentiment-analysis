@@ -2,11 +2,9 @@ import { useState, useEffect } from 'react';
 import { LandingPage } from '@/pages/landing-page';
 import { Dashboard } from '@/pages/dashboard';
 import { LoadingScreen } from '@/components/loading-screen';
-import { useWallet } from '@solana/wallet-adapter-react';
 import { useAuth } from '@/context/auth-context';
 
 export function Routes() {
-  const { connected } = useWallet();
   const { isAuthenticated } = useAuth();
   const [loading, setLoading] = useState(true);
 

@@ -1,7 +1,7 @@
 // This is a simplified motion library for basic animations
 // A production app would use framer-motion or react-spring
 
-import React, { useState, useEffect, ReactNode } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
 type MotionProps = {
@@ -27,13 +27,11 @@ export function motion({
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Apply animation after mount to enable transitions
     if (!mounted) {
       setMounted(true);
       return;
     }
 
-    // Minimal simulation of animation library
     const timer = setTimeout(() => {
       setStyle(animate || {});
     }, (transition?.delay || 0) * 1000);

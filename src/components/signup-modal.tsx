@@ -27,13 +27,12 @@ interface SignupModalProps {
 export function SignupModal({ open, onOpenChange, onShowLogin }: SignupModalProps) {
   const { publicKey, signMessage, connected } = useWallet();
   const { toast } = useToast();
-  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [showLogin, setShowLogin] = useState(false); // State to control login modal
+  const [showLogin, setShowLogin] = useState(false);
 
   const wallet = {
     publicKey: publicKey,
@@ -99,12 +98,12 @@ export function SignupModal({ open, onOpenChange, onShowLogin }: SignupModalProp
     try {
       const response = await client.users.signUpWallet(wallet);
       if (response.success) {
-        //login(); // Mark user as authenticated
+  
         toast({
           title: "Signup successful",
           description: `Welcome! Your account has been created.`,
         });
-        onOpenChange(false); // Close signup modal
+        onOpenChange(false); 
         
         // Show login modal after successful signup
         if (onShowLogin) {
